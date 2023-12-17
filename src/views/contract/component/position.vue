@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from "vue";
+import { defineProps } from "vue";
 
-const positionList = ref([]);
+const props = defineProps(["positionList"]);
 </script>
 
 <template>
@@ -16,7 +17,30 @@ const positionList = ref([]);
       </div>
     </div>
     <div class="box">
-      <div v-if="positionList.length > 0">11</div>
+      <div v-if="props.positionList.length > 0">
+        <div
+          class="per"
+          v-for="(item, index) in props.positionList"
+          :key="index"
+        >
+          <div>
+            <span>种类</span>
+            <span>{{ item.type }}</span>
+          </div>
+          <div>
+            <span>方向</span>
+            <span>{{item.direction}}</span>
+          </div>
+          <div>
+            <span>开仓价格</span>
+            <span>{{ item.open_price }}</span>
+          </div>
+          <div>
+            <span>数量</span>
+            <span>{{ item.num }}USDT</span>
+          </div>
+        </div>
+      </div>
       <div v-else><van-empty description="描述文字" /></div>
     </div>
   </div>
@@ -35,6 +59,26 @@ const positionList = ref([]);
     div {
       display: flex;
       align-items: center;
+    }
+  }
+  .box {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    .per {
+      width: auto;
+      height: auto;
+      display: flex;
+      justify-content: space-around;
+      flex-direction: column;
+      border-bottom: 1px solid gray;
+      div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
   }
 }

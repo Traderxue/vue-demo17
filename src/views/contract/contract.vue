@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { getDepath,getDetail } from "@/api/coin.js";
-import position from "@/views/contract/component/position.vue"
+import { getDepath, getDetail } from "@/api/coin.js";
+import position from "@/views/contract/component/position.vue";
+import { showToast } from "vant";
 
 const active = ref("buy");
 const activeText = ref("买入做多");
@@ -18,6 +19,8 @@ const current = ref({
   price: "",
   up: 0,
 });
+
+const positionList = ref([]);
 
 const bids = ref([]);
 const asks = ref([]);
@@ -40,10 +43,10 @@ const getDepaths = async () => {
   });
 };
 
-const getDetails = async () =>{
-  const{data:res} = await getDetail(current.value.type)
-  current.value.price = res.tick.close
-}
+const getDetails = async () => {
+  const { data: res } = await getDetail(current.value.type);
+  current.value.price = res.tick.close;
+};
 
 const buy = () => {
   active.value = "buy";
@@ -54,6 +57,19 @@ const sell = () => {
   activeText.value = "卖出做空";
 };
 
+const openPosition = () => {
+  if (balance.value * selectedLever.value < num.value) {
+    return showToast("余额不足");
+  }
+  positionList.value.push({
+    type: current.value.type.toUpperCase(),
+    open_price: current.value.price,
+    direction: active.value,
+    num: num.value,
+  });
+  balance.value -= num.value / selectedLever.value;
+};
+
 setInterval(() => {
   getDepaths();
   getDetails();
@@ -61,7 +77,7 @@ setInterval(() => {
 
 onMounted(() => {
   getDepaths();
-  getDetails()
+  getDetails();
 });
 </script>
 
@@ -119,7 +135,10 @@ onMounted(() => {
           <span>{{ (balance * selectedLever).toFixed(2) }} USDT</span>
         </div>
         <div class="lastbtn">
-          <button :class="active == 'buy' ? 'buy' : 'sell'">
+          <button
+            :class="active == 'buy' ? 'buy' : 'sell'"
+            @click="openPosition"
+          >
             {{ activeText }}
           </button>
         </div>
@@ -127,7 +146,7 @@ onMounted(() => {
       <div class="right">
         <div class="top">
           <span>价格(USDT)</span>
-          <span>数量({{current.type.toUpperCase()}})</span>
+          <span>数量({{ current.type.toUpperCase() }})</span>
         </div>
         <div class="content">
           <div class="bids">
@@ -145,7 +164,9 @@ onMounted(() => {
             </div>
           </div>
           <div class="mid" style="font-size: 17px; font-weight: 600">
-            <span :style="{ color: current.up == 1 ? '#00b8a9' : '#ff2e63' }">{{ current.price }}</span>
+            <span :style="{ color: current.up == 1 ? '#00b8a9' : '#ff2e63' }">{{
+              current.price
+            }}</span>
           </div>
           <div class="asks">
             <div
@@ -165,7 +186,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="position">
-      <position/>
+      <position :positionList="positionList" />
     </div>
   </div>
 </template>
@@ -364,7 +385,7 @@ onMounted(() => {
             display: flex;
             justify-content: space-between;
             padding: 4px 0px;
-            .span1{
+            .span1 {
               color: #00b8a9;
             }
           }
@@ -378,7 +399,7 @@ onMounted(() => {
             display: flex;
             justify-content: space-between;
             padding: 4px 0px;
-            .span1{
+            .span1 {
               color: #ff2e63;
             }
           }
