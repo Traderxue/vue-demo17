@@ -191,6 +191,9 @@ const typeList = ref([
       height: 140px;
     }
   }
+  h3{
+    font-size: 17px;
+  }
   hr {
     border: 5px solid #f5f5f5;
   }

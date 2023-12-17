@@ -59,7 +59,7 @@ const changeTab = (item) => {
   .banner {
     width: auto;
     margin: 20px 0px;
-    padding: 0px 15px;
+    padding: 0px 30px;
     display: flex;
     justify-content: space-between;
     font-size: 14px;
