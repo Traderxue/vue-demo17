@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { getDepath,getDetail } from "@/api/coin.js";
-import { color } from "echarts";
+import position from "@/views/contract/component/position.vue"
 
 const active = ref("buy");
 const activeText = ref("买入做多");
@@ -126,8 +126,8 @@ onMounted(() => {
       </div>
       <div class="right">
         <div class="top">
-          <span>价格</span>
-          <span>数量</span>
+          <span>价格(USDT)</span>
+          <span>数量({{current.type.toUpperCase()}})</span>
         </div>
         <div class="content">
           <div class="bids">
@@ -163,6 +163,9 @@ onMounted(() => {
           </div>
         </div>
       </div>
+    </div>
+    <div class="position">
+      <position/>
     </div>
   </div>
 </template>
