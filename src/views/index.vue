@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import {showToast} from "vant";
 
 const active = ref(0);
@@ -12,7 +12,6 @@ const onRefresh = () =>{
         loading.value = false;
       }, 1000);
 }
-
 </script>
 
 <template>
