@@ -322,7 +322,7 @@ const typeList = ref([
             button {
               color: #fff;
               border: 0;
-              font-size: 14px;
+              font-size: 13px;
               font-weight: 500;
               width: 65px;
               height: 30px;
