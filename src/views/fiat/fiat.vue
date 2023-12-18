@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const active = ref("买入");
 
@@ -10,12 +13,13 @@ const navList = ref([
   },
   {
     title: "卖出",
-    class: "sell",
+    path: "sell",
   },
 ]);
 
 const changeTab = (item) => {
   active.value = item.title;
+  router.push(item.path)
 };
 </script>
 
@@ -32,9 +36,12 @@ const changeTab = (item) => {
         v-for="(item, index) in navList"
         :key="index"
         @click="changeTab(item)"
-        :class="active==item.title?'active':''"
+        :class="active == item.title ? 'active' : ''"
         >{{ item.title }}</span
       >
+    </div>
+    <div class="box">
+      <RouterView />
     </div>
   </div>
 </template>
@@ -58,15 +65,15 @@ const changeTab = (item) => {
       height: auto;
     }
   }
-  .nav{
+  .nav {
     display: flex;
     justify-content: space-around;
-    span{
+    span {
       font-size: 18px;
       font-weight: 600;
       color: #333;
     }
-    .active{
+    .active {
       color: #ff2e63;
       border-bottom: 3px solid #ff2e63;
       padding-bottom: 4px;
