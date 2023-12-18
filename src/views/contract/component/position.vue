@@ -74,6 +74,8 @@ const props = defineProps(["positionList"]);
       justify-content: space-around;
       flex-direction: column;
       border-bottom: 1px solid gray;
+      margin-top: 15px;
+      padding-bottom: 10px;
       div {
         display: flex;
         justify-content: space-between;

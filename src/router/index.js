@@ -43,7 +43,22 @@ const router = createRouter({
         },
         {
           path: "/fiat",
-          component: () => import("@/views/fiat/fiat.vue")
+          component: () => import("@/views/fiat/fiat.vue"),
+          children:([
+            {
+              path:"",
+              component:()=>import("@/views/fiat/component/buy.vue")
+            },
+            {
+              path:"/buy",
+              component:()=>import("@/views/fiat/component/buy.vue")
+            },
+            {
+              path:"/sell",
+              component:()=>import("@/views/fiat/component/sell.vue")
+            }
+          ])
+
         },
         {
           path: "/mine",
